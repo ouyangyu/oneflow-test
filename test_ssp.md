@@ -30,10 +30,11 @@ Legend:
     - cp并修改`runtime/image_classification/driver_configs/alexnet_8pipedream.yml`
     - cp并修改`runtime/image_classification/driver_configs/vgg16_8pipedream.yml`
     - cp并修改`runtime/image_classification/driver_configs/vgg16_8dp.yml`
-  - #### 实验汇总
+
+- #### 实验汇总
     所有实验都是在单机8卡情况下进行，分2个stage，rank比例为：7:1
-    - alexnet batch size为256
-    - vgg16的batch size为32(vgg16_8pipedream 时batch size为64会oom)
+  - alexnet batch size为256
+  - vgg16的batch size为32(vgg16_8pipedream 时batch size为64会oom)
     |    类型             | GPU Memory |  单个Epoch时间     |  日志 |
     | ------------------ | -----------|-------------------| ------------ |
     | alexnet_8dp        |  4679MiB   | Epoch 0: 151.468 seconds、Epoch 1: 144.396 seconds |[pipedream_alexnet_8dp_logs.zip](http://oneflow-public.oss-cn-beijing.aliyuncs.com/oneflow_test_log/pipedream/js/pipedream_alexnet_8dp_logs.zip)  |
@@ -42,115 +43,115 @@ Legend:
     | vgg16_8pipedream_b32   |  7907MiB   |   Epoch 0: 1644.832 seconds   | [vgg16_8pipedream_logs.zip](http://oneflow-public.oss-cn-beijing.aliyuncs.com/oneflow_test_log/pipedream/js/vgg16_8pipedream_logs.zip)|
     | vgg16_8dp_b32          | 11687MiB    |Epoch 0: 2647.071 seconds  |[pipedream_vgg_8dp_b32_logs.zip](http://oneflow-public.oss-cn-beijing.aliyuncs.com/oneflow_test_log/pipedream/js/pipedream_vgg_8dp_b32_logs.zip)   |
   
-  - #### vgg16_8pipedream
-    - 在`pipedream/runtime`目录下，运行`python driver.py --config_file image_classification/driver_configs/vgg16_8pipedream.yml --launch_single_container --mount_directories /DATA/disk1/ImageNet/extract /home/oyy`
-    - 加载真实数据
-    - `watch nvidia-smi`信息如下：
-        ```
-        +-----------------------------------------------------------------------------+
-        | Processes:                                                       GPU Memory |
-        |  GPU       PID   Type   Process name                             Usage      |
-        |=============================================================================|
-        |    0     39304      C   /opt/conda/bin/python                       7907MiB |
-        |    0     39306      C   /opt/conda/bin/python                        681MiB |
-        |    0     39307      C   /opt/conda/bin/python                        681MiB |
-        |    0     39308      C   /opt/conda/bin/python                        681MiB |
-        |    0     39309      C   /opt/conda/bin/python                        681MiB |
-        |    0     39310      C   /opt/conda/bin/python                        681MiB |
-        |    0     39311      C   /opt/conda/bin/python                        681MiB |
-        |    1     39305      C   /opt/conda/bin/python                       7907MiB |
-        |    2     39306      C   /opt/conda/bin/python                       7887MiB |
-        |    3     39307      C   /opt/conda/bin/python                       7887MiB |
-        |    4     39308      C   /opt/conda/bin/python                       7907MiB |
-        |    5     39309      C   /opt/conda/bin/python                       7907MiB |
-        |    6     39310      C   /opt/conda/bin/python                       7887MiB |
-        |    7     39311      C   /opt/conda/bin/python                       5439MiB |
-        +-----------------------------------------------------------------------------+
-        ```
+- #### vgg16_8pipedream
+  - 在`pipedream/runtime`目录下，运行`python driver.py --config_file image_classification/driver_configs/vgg16_8pipedream.yml --launch_single_container --mount_directories /DATA/disk1/ImageNet/extract /home/oyy`
+  - 加载真实数据
+  - `watch nvidia-smi`信息如下：
+    ```
+    +-----------------------------------------------------------------------------+
+    | Processes:                                                       GPU Memory |
+    |  GPU       PID   Type   Process name                             Usage      |
+    |=============================================================================|
+    |    0     39304      C   /opt/conda/bin/python                       7907MiB |
+    |    0     39306      C   /opt/conda/bin/python                        681MiB |
+    |    0     39307      C   /opt/conda/bin/python                        681MiB |
+    |    0     39308      C   /opt/conda/bin/python                        681MiB |
+    |    0     39309      C   /opt/conda/bin/python                        681MiB |
+    |    0     39310      C   /opt/conda/bin/python                        681MiB |
+    |    0     39311      C   /opt/conda/bin/python                        681MiB |
+    |    1     39305      C   /opt/conda/bin/python                       7907MiB |
+    |    2     39306      C   /opt/conda/bin/python                       7887MiB |
+    |    3     39307      C   /opt/conda/bin/python                       7887MiB |
+    |    4     39308      C   /opt/conda/bin/python                       7907MiB |
+    |    5     39309      C   /opt/conda/bin/python                       7907MiB |
+    |    6     39310      C   /opt/conda/bin/python                       7887MiB |
+    |    7     39311      C   /opt/conda/bin/python                       5439MiB |
+    +-----------------------------------------------------------------------------+
+    ```
 
 - #### vgg16_8dp batch size为32
-    - 在`pipedream/runtime`目录下，运行`python driver.py --config_file image_classification/driver_configs/vgg16_8dp.yml --launch_single_container --mount_directories /DATA/disk1/ImageNet/extract /home/oyy`
-    - 加载真实数据
-    - `watch nvidia-smi`信息如下：
-        ```
-        +-----------------------------------------------------------------------------+
-        | Processes:                                                       GPU Memory |
-        |  GPU       PID   Type   Process name                             Usage      |
-        |=============================================================================|
-        |    0     46456      C   /opt/conda/bin/python                      11675MiB |
-        |    1     46457      C   /opt/conda/bin/python                      11687MiB |
-        |    2     46458      C   /opt/conda/bin/python                      11687MiB |
-        |    3     46459      C   /opt/conda/bin/python                      11687MiB |
-        |    4     46460      C   /opt/conda/bin/python                      11675MiB |
-        |    5     46461      C   /opt/conda/bin/python                      11687MiB |
-        |    6     46462      C   /opt/conda/bin/python                      11687MiB |
-        |    7     46463      C   /opt/conda/bin/python                      11687MiB |
-        +-----------------------------------------------------------------------------+
-        ```
+  - 在`pipedream/runtime`目录下，运行`python driver.py --config_file image_classification/driver_configs/vgg16_8dp.yml --launch_single_container --mount_directories /DATA/disk1/ImageNet/extract /home/oyy`
+  - 加载真实数据
+  - `watch nvidia-smi`信息如下：
+    ```
+    +-----------------------------------------------------------------------------+
+    | Processes:                                                       GPU Memory |
+    |  GPU       PID   Type   Process name                             Usage      |
+    |=============================================================================|
+    |    0     46456      C   /opt/conda/bin/python                      11675MiB |
+    |    1     46457      C   /opt/conda/bin/python                      11687MiB |
+    |    2     46458      C   /opt/conda/bin/python                      11687MiB |
+    |    3     46459      C   /opt/conda/bin/python                      11687MiB |
+    |    4     46460      C   /opt/conda/bin/python                      11675MiB |
+    |    5     46461      C   /opt/conda/bin/python                      11687MiB |
+    |    6     46462      C   /opt/conda/bin/python                      11687MiB |
+    |    7     46463      C   /opt/conda/bin/python                      11687MiB |
+    +-----------------------------------------------------------------------------+
+    ```
 
-  - #### vgg16_8dp batch size为64
-    - 在`pipedream/runtime`目录下，运行`python driver.py --config_file image_classification/driver_configs/vgg16_8dp.yml --launch_single_container --mount_directories /DATA/disk1/ImageNet/extract /home/oyy`
-    - 加载真实数据
-    - `watch nvidia-smi`信息如下：
-        ```
-        +-----------------------------------------------------------------------------+
-        | Processes:                                                       GPU Memory |
-        |  GPU       PID   Type   Process name                             Usage      |
-        |=============================================================================|
-        |    0     35961      C   /opt/conda/bin/python                      11769MiB |
-        |    1     35962      C   /opt/conda/bin/python                      11845MiB |
-        |    2     35963      C   /opt/conda/bin/python                      11845MiB |
-        |    3     35964      C   /opt/conda/bin/python                      11845MiB |
-        |    4     35965      C   /opt/conda/bin/python                      11833MiB |
-        |    5     35966      C   /opt/conda/bin/python                      11849MiB |
-        |    6     35967      C   /opt/conda/bin/python                      11849MiB |
-        |    7     35968      C   /opt/conda/bin/python                      11849MiB |
-        +-----------------------------------------------------------------------------+
-        ```
+- #### vgg16_8dp batch size为64
+  - 在`pipedream/runtime`目录下，运行`python driver.py --config_file image_classification/driver_configs/vgg16_8dp.yml --launch_single_container --mount_directories /DATA/disk1/ImageNet/extract /home/oyy`
+  - 加载真实数据
+  - `watch nvidia-smi`信息如下：
+      ```
+      +-----------------------------------------------------------------------------+
+      | Processes:                                                       GPU Memory |
+      |  GPU       PID   Type   Process name                             Usage      |
+      |=============================================================================|
+      |    0     35961      C   /opt/conda/bin/python                      11769MiB |
+      |    1     35962      C   /opt/conda/bin/python                      11845MiB |
+      |    2     35963      C   /opt/conda/bin/python                      11845MiB |
+      |    3     35964      C   /opt/conda/bin/python                      11845MiB |
+      |    4     35965      C   /opt/conda/bin/python                      11833MiB |
+      |    5     35966      C   /opt/conda/bin/python                      11849MiB |
+      |    6     35967      C   /opt/conda/bin/python                      11849MiB |
+      |    7     35968      C   /opt/conda/bin/python                      11849MiB |
+      +-----------------------------------------------------------------------------+
+      ```
 
-  - #### alexnet_8dp
-    - 在`pipedream/runtime`目录下，运行`python driver.py --config_file image_classification/driver_configs/alexnet_8dp.yml --launch_single_container --mount_directories /DATA/disk1/ImageNet/extract /home/oyy`
-    - 合成数据
-    - `watch nvidia-smi`信息如下：
-        ```
-        +-----------------------------------------------------------------------------+
-        | Processes:                                                                  |
-        |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
-        |        ID   ID                                                   Usage      |
-        |=============================================================================|
-        |    0   N/A  N/A     47348      C   /opt/conda/bin/python            4667MiB |
-        |    1   N/A  N/A     47349      C   /opt/conda/bin/python            4679MiB |
-        |    2   N/A  N/A     47350	 C   /opt/conda/bin/python            4679MiB |
-        |    3   N/A  N/A     47351	 C   /opt/conda/bin/python            4679MiB |
-        |    4   N/A  N/A     47352	 C   /opt/conda/bin/python            4667MiB |
-        |    5   N/A  N/A     47353      C   /opt/conda/bin/python            4679MiB |
-        |    6   N/A  N/A     47354	 C   /opt/conda/bin/python            4679MiB |
-        |    7   N/A  N/A     47355	 C   /opt/conda/bin/python            4679MiB |
-        +-----------------------------------------------------------------------------+
-        ```
- 
-  - #### alexnet_8pipedream
-    - 在`pipedream/runtime`目录下，运行`python driver.py --config_file image_classification/driver_configs/alexnet_8pipedream.yml --launch_single_container --mount_directories /DATA/disk1/ImageNet/extract /home/oyy`
-    - 合成数据
-    - `watch nvidia-smi`信息如下：
-        ```
-        +-----------------------------------------------------------------------------+
-        | Processes:                                                                  |
-        |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
-        |        ID   ID                                                   Usage      |
-        |=============================================================================|
-        |    0   N/A  N/A     56257	 C   /opt/conda/bin/python            5047MiB |
-        |    0   N/A  N/A     56259	 C   /opt/conda/bin/python             683MiB |
-        |    0   N/A  N/A     56262	 C   /opt/conda/bin/python             683MiB |
-        |    1   N/A  N/A     56258	 C   /opt/conda/bin/python            4871MiB |
-        |    2   N/A  N/A     56259	 C   /opt/conda/bin/python            4871MiB |
-        |    3   N/A  N/A     56260	 C   /opt/conda/bin/python            4871MiB |
-        |    4   N/A  N/A     56261	 C   /opt/conda/bin/python            4871MiB |
-        |    5   N/A  N/A     56262	 C   /opt/conda/bin/python            5047MiB |
-        |    6   N/A  N/A     56263	 C   /opt/conda/bin/python            5047MiB |
-        |    7   N/A  N/A     56264	 C   /opt/conda/bin/python            2151MiB |
-        +-----------------------------------------------------------------------------+
-        ```
+- #### alexnet_8dp
+  - 在`pipedream/runtime`目录下，运行`python driver.py --config_file image_classification/driver_configs/alexnet_8dp.yml --launch_single_container --mount_directories /DATA/disk1/ImageNet/extract /home/oyy`
+  - 合成数据
+  - `watch nvidia-smi`信息如下：
+    ```
+    +-----------------------------------------------------------------------------+
+    | Processes:                                                                  |
+    |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+    |        ID   ID                                                   Usage      |
+    |=============================================================================|
+    |    0   N/A  N/A     47348      C   /opt/conda/bin/python            4667MiB |
+    |    1   N/A  N/A     47349      C   /opt/conda/bin/python            4679MiB |
+    |    2   N/A  N/A     47350	 C   /opt/conda/bin/python            4679MiB |
+    |    3   N/A  N/A     47351	 C   /opt/conda/bin/python            4679MiB |
+    |    4   N/A  N/A     47352	 C   /opt/conda/bin/python            4667MiB |
+    |    5   N/A  N/A     47353      C   /opt/conda/bin/python            4679MiB |
+    |    6   N/A  N/A     47354	 C   /opt/conda/bin/python            4679MiB |
+    |    7   N/A  N/A     47355	 C   /opt/conda/bin/python            4679MiB |
+    +-----------------------------------------------------------------------------+
+    ```
+
+- #### alexnet_8pipedream
+  - 在`pipedream/runtime`目录下，运行`python driver.py --config_file image_classification/driver_configs/alexnet_8pipedream.yml --launch_single_container --mount_directories /DATA/disk1/ImageNet/extract /home/oyy`
+  - 合成数据
+  - `watch nvidia-smi`信息如下：
+    ```
+    +-----------------------------------------------------------------------------+
+    | Processes:                                                                  |
+    |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+    |        ID   ID                                                   Usage      |
+    |=============================================================================|
+    |    0   N/A  N/A     56257	 C   /opt/conda/bin/python            5047MiB |
+    |    0   N/A  N/A     56259	 C   /opt/conda/bin/python             683MiB |
+    |    0   N/A  N/A     56262	 C   /opt/conda/bin/python             683MiB |
+    |    1   N/A  N/A     56258	 C   /opt/conda/bin/python            4871MiB |
+    |    2   N/A  N/A     56259	 C   /opt/conda/bin/python            4871MiB |
+    |    3   N/A  N/A     56260	 C   /opt/conda/bin/python            4871MiB |
+    |    4   N/A  N/A     56261	 C   /opt/conda/bin/python            4871MiB |
+    |    5   N/A  N/A     56262	 C   /opt/conda/bin/python            5047MiB |
+    |    6   N/A  N/A     56263	 C   /opt/conda/bin/python            5047MiB |
+    |    7   N/A  N/A     56264	 C   /opt/conda/bin/python            2151MiB |
+    +-----------------------------------------------------------------------------+
+    ```
 
 - ### OneFlow
   - 分支: [dev_ssp@dbab058b9](https://github.com/Oneflow-Inc/oneflow/tree/dev_ssp)
@@ -341,7 +342,6 @@ Legend:
         |    7   N/A  N/A     19398      C   python3                          8983MiB |
         +-----------------------------------------------------------------------------+
         ```
-      - 结果：
 
 - #### ResNet50@46dd15904
   - ##### 实验汇总
@@ -629,3 +629,284 @@ Legend:
         |    7   N/A  N/A     27618	 C   python3                          7861MiB |
         +-----------------------------------------------------------------------------+
         ```
+
+
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 440.64	  Driver Version: 440.64       CUDA Version: 10.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  TITAN V             Off  | 00000000:04:00.0 Off |                  N/A |
+| 43%   63C    P2   127W / 250W |   7661MiB / 12066MiB |    100%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  TITAN V             Off  | 00000000:05:00.0 Off |                  N/A |
+| 50%   71C    P2   169W / 250W |   7891MiB / 12066MiB |     98%      Default |
++-------------------------------+----------------------+----------------------+
+|   2  TITAN V             Off  | 00000000:08:00.0 Off |                  N/A |
+| 47%   68C    P2   173W / 250W |   7893MiB / 12066MiB |     99%      Default |
++-------------------------------+----------------------+----------------------+
+|   3  TITAN V             Off  | 00000000:09:00.0 Off |                  N/A |
+| 53%   76C    P2   195W / 250W |   7891MiB / 12066MiB |     99%      Default |
++-------------------------------+----------------------+----------------------+
+|   4  TITAN V             Off  | 00000000:85:00.0 Off |                  N/A |
+| 49%   70C    P2   174W / 250W |   7883MiB / 12066MiB |     98%      Default |
++-------------------------------+----------------------+----------------------+
+|   5  TITAN V             Off  | 00000000:86:00.0 Off |                  N/A |
+| 52%   74C    P2   181W / 250W |   7885MiB / 12066MiB |     98%      Default |
++-------------------------------+----------------------+----------------------+
+|   6  TITAN V             Off  | 00000000:89:00.0 Off |                  N/A |
+| 44%   64C    P2   186W / 250W |   7901MiB / 12066MiB |     99%      Default |
++-------------------------------+----------------------+----------------------+
+|   7  TITAN V             Off  | 00000000:8A:00.0 Off |                  N/A |
+| 48%   70C    P2   172W / 250W |   7879MiB / 12066MiB |     98%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0     21474      C   python3                                     7643MiB |
+|    1     21474      C   python3                                     7873MiB |
+|    2     21474      C   python3                                     7875MiB |
+|    3     21474      C   python3                                     7873MiB |
+|    4     21474      C   python3                                     7865MiB |
+|    5     21474      C   python3                                     7867MiB |
+|    6     21474      C   python3                                     7883MiB |
+|    7     21474      C   python3                                     7861MiB |
++-----------------------------------------------------------------------------+
+
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 450.57	  Driver Version: 450.57       CUDA Version: 11.0     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  TITAN V             Off  | 00000000:04:00.0 Off |                  N/A |
+| 44%   64C    P2   158W / 250W |   7645MiB / 12066MiB |     98%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   1  TITAN V             Off  | 00000000:05:00.0 Off |                  N/A |
+| 52%   74C    P2   130W / 250W |   7883MiB / 12066MiB |     98%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   2  TITAN V             Off  | 00000000:08:00.0 Off |                  N/A |
+| 50%   72C    P2    93W / 250W |   7881MiB / 12066MiB |     98%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   3  TITAN V             Off  | 00000000:09:00.0 Off |                  N/A |
+| 50%   71C    P2   145W / 250W |   7883MiB / 12066MiB |     99%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   4  TITAN V             Off  | 00000000:85:00.0 Off |                  N/A |
+| 49%   71C    P2   174W / 250W |   7873MiB / 12066MiB |     99%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   5  TITAN V             Off  | 00000000:86:00.0 Off |                  N/A |
+| 48%   70C    P2   174W / 250W |   7875MiB / 12066MiB |     99%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   6  TITAN V             Off  | 00000000:89:00.0 Off |                  N/A |
+| 45%   66C    P2   175W / 250W |   7871MiB / 12066MiB |     98%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   7  TITAN V             Off  | 00000000:8A:00.0 Off |                  N/A |
+| 47%   69C    P2   171W / 250W |   7881MiB / 12066MiB |     98%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|    0   N/A  N/A     39977	 C   python3                          7635MiB |
+|    1   N/A  N/A     39977	 C   python3                          7873MiB |
+|    2   N/A  N/A     39977	 C   python3                          7871MiB |
+|    3   N/A  N/A     39977	 C   python3                          7873MiB |
+|    4   N/A  N/A     39977	 C   python3                          7863MiB |
+|    5   N/A  N/A     39977	 C   python3                          7865MiB |
+|    6   N/A  N/A     39977	 C   python3                          7861MiB |
+|    7   N/A  N/A     39977	 C   python3                          7871MiB |
++-----------------------------------------------------------------------------+
+
+
+
+  - ##### ResNet50_ssp_2：2机8卡SSP实验，2个stage，比例为1：50
+    - scp 
+    - 在金山01和02的`OneFlow-Benchmark/Classification/cnns`目录下分别运行命令：`./train_fp32_ssp.sh 50 64 0:0-7,1:0-7.0:0-7,1:0-7 resnet50 /DATA/disk1/ImageNet/ofrecord/train 10.0.22.16,10.0.22.3`
+    - `watch nvidia-smi`信息如下：
+    ```
+    +-----------------------------------------------------------------------------+
+    | Processes:                                                       GPU Memory |
+    |  GPU       PID   Type   Process name                             Usage      |
+    |=============================================================================|
+    |    0     50713      C   python3                                     8083MiB |
+    |    1     50713      C   python3                                     8313MiB |
+    |    2     50713      C   python3                                     8309MiB |
+    |    3     50713      C   python3                                     8309MiB |
+    |    4     50713      C   python3                                     8319MiB |
+    |    5     50713      C   python3                                     8319MiB |
+    |    6     50713      C   python3                                     8311MiB |
+    |    7     50713      C   python3                                     8319MiB |
+    +-----------------------------------------------------------------------------
+    +-----------------------------------------------------------------------------+
+    | Processes:                                                                  |
+    |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+    |        ID   ID                                                   Usage      |
+    |=============================================================================|
+    |    0   N/A  N/A     56401	 C   python3                          8093MiB |
+    |    1   N/A  N/A     56401	 C   python3                          8315MiB |
+    |    2   N/A  N/A     56401	 C   python3                          8309MiB |
+    |    3   N/A  N/A     56401	 C   python3                          8311MiB |
+    |    4   N/A  N/A     56401	 C   python3                          8309MiB |
+    |    5   N/A  N/A     56401	 C   python3                          8311MiB |
+    |    6   N/A  N/A     56401	 C   python3                          8309MiB |
+    |    7   N/A  N/A     56401	 C   python3                          8323MiB |
+    +-----------------------------------------------------------------------------+
+    ```
+    - 与数据并行持平，286
+
+- ##### ResNet50_ssp_1：2机8卡SSP实验，1个stage
+    - scp 
+    - 在金山01和02的`OneFlow-Benchmark/Classification/cnns`目录下分别运行命令：`./train_fp32_ssp.sh 50 64 0:0-7,1:0-7.0:0-7,1:0-7 resnet50 /DATA/disk1/ImageNet/ofrecord/train 10.0.22.16,10.0.22.3`
+    - `watch nvidia-smi`信息如下：
+    ```
+    +-----------------------------------------------------------------------------+
+    | Processes:                                                       GPU Memory |
+    |  GPU       PID   Type   Process name                             Usage      |
+    |=============================================================================|
+    |    0     10513      C   python3                                     7639MiB |
+    |    1     10513      C   python3                                     7869MiB |
+    |    2     10513      C   python3                                     7869MiB |
+    |    3     10513      C   python3                                     7861MiB |
+    |    4     10513      C   python3                                     7875MiB |
+    |    5     10513      C   python3                                     7861MiB |
+    |    6     10513      C   python3                                     7873MiB |
+    |    7     10513      C   python3                                     7861MiB |
+    +-----------------------------------------------------------------------------+
+    +-----------------------------------------------------------------------------+
+    | Processes:                                                                  |
+    |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+    |        ID   ID                                                   Usage      |
+    |=============================================================================|
+    |    0   N/A  N/A     17187      C   python3                          7647MiB |
+    |    1   N/A  N/A     17187      C   python3                          7865MiB |
+    |    2   N/A  N/A     17187      C   python3                          7861MiB |
+    |    3   N/A  N/A     17187      C   python3                          7861MiB |
+    |    4   N/A  N/A     17187	 C   python3                          7869MiB |
+    |    5   N/A  N/A     17187      C   python3                          7877MiB |
+    |    6   N/A  N/A     17187      C   python3                          7861MiB |
+    |    7   N/A  N/A     17187	 C   python3                          7863MiB |
+    +-----------------------------------------------------------------------------+
+    ```
+- OneFlow新的commit重测
+- #### vgg16_ssp_b28,比例为11：7，2个stage
+  - 在金山01和02的`OneFlow-Benchmark/Classification/cnns`目录下分别运行命令：`./train_fp32_ssp.sh 4 28 0:0-6.0:7 vgg /DATA/disk1/ImageNet/ofrecord/train`
+  - `watch nvidia-smi`信息如下：
+    ```
+    +-----------------------------------------------------------------------------+
+    | NVIDIA-SMI 440.64	  Driver Version: 440.64       CUDA Version: 10.2     |
+    |-------------------------------+----------------------+----------------------+
+    | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+    | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+    |===============================+======================+======================|
+    |   0  TITAN V             Off  | 00000000:04:00.0 Off |                  N/A |
+    | 40%   59C    P2   160W / 250W |   9107MiB / 12066MiB |     50%      Default |
+    +-------------------------------+----------------------+----------------------+
+    |   1  TITAN V             Off  | 00000000:05:00.0 Off |                  N/A |
+    | 46%   67C    P2   163W / 250W |   9213MiB / 12066MiB |     72%      Default |
+    +-------------------------------+----------------------+----------------------+
+    |   2  TITAN V             Off  | 00000000:08:00.0 Off |                  N/A |
+    | 43%   63C    P2   168W / 250W |   9213MiB / 12066MiB |     46%      Default |
+    +-------------------------------+----------------------+----------------------+
+    |   3  TITAN V             Off  | 00000000:09:00.0 Off |                  N/A |
+    | 49%   71C    P2   178W / 250W |   9213MiB / 12066MiB |     81%      Default |
+    +-------------------------------+----------------------+----------------------+
+    |   4  TITAN V             Off  | 00000000:85:00.0 Off |                  N/A |
+    | 45%   66C    P2   167W / 250W |   9213MiB / 12066MiB |     44%      Default |
+    +-------------------------------+----------------------+----------------------+
+    |   5  TITAN V             Off  | 00000000:86:00.0 Off |                  N/A |
+    | 48%   70C    P2   158W / 250W |   9213MiB / 12066MiB |     61%      Default |
+    +-------------------------------+----------------------+----------------------+
+    |   6  TITAN V             Off  | 00000000:89:00.0 Off |                  N/A |
+    | 40%   59C    P2    72W / 250W |   9189MiB / 12066MiB |     54%      Default |
+    +-------------------------------+----------------------+----------------------+
+    |   7  TITAN V             Off  | 00000000:8A:00.0 Off |                  N/A |
+    | 34%   52C    P2   127W / 250W |   4517MiB / 12066MiB |     29%      Default |
+    +-------------------------------+----------------------+----------------------+
+
+    +-----------------------------------------------------------------------------+
+    | Processes:                                                       GPU Memory |
+    |  GPU       PID   Type   Process name                             Usage      |
+    |=============================================================================|
+    |    0     17230      C   python3                                     9089MiB |
+    |    1     17230      C   python3                                     9195MiB |
+    |    2     17230      C   python3                                     9195MiB |
+    |    3     17230      C   python3                                     9195MiB |
+    |    4     17230      C   python3                                     9195MiB |
+    |    5     17230      C   python3                                     9195MiB |
+    |    6     17230      C   python3                                     9171MiB |
+    |    7     17230      C   python3                                     4499MiB |
+    +-----------------------------------------------------------------------------+
+    ```
+- #### AlexNet ssp，2个stage，3：1
+  - 在金山01和02的`OneFlow-Benchmark/Classification/cnns`目录下分别运行命令：`./train_fp32_ssp.sh 4 252 0:0-6.0:7 alexnet`
+  - `watch nvidia-smi`信息如下：
+  ```
+  +-----------------------------------------------------------------------------+
+  | NVIDIA-SMI 450.57	  Driver Version: 450.57       CUDA Version: 11.0     |
+  |-------------------------------+----------------------+----------------------+
+  | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+  | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+  |                               |                      |               MIG M. |
+  |===============================+======================+======================|
+  |   0  TITAN V             Off  | 00000000:04:00.0 Off |                  N/A |
+  | 35%   53C    P2    52W / 250W |   4625MiB / 12066MiB |     83%      Default |
+  |                               |                      |                  N/A |
+  +-------------------------------+----------------------+----------------------+
+  |   1  TITAN V             Off  | 00000000:05:00.0 Off |                  N/A |
+  | 42%   61C    P2   100W / 250W |   4957MiB / 12066MiB |     88%      Default |
+  |                               |                      |                  N/A |
+  +-------------------------------+----------------------+----------------------+
+  |   2  TITAN V             Off  | 00000000:08:00.0 Off |                  N/A |
+  | 40%   59C    P2   102W / 250W |   4957MiB / 12066MiB |     82%      Default |
+  |                               |                      |                  N/A |
+  +-------------------------------+----------------------+----------------------+
+  |   3  TITAN V             Off  | 00000000:09:00.0 Off |                  N/A |
+  | 40%   59C    P2   110W / 250W |   4957MiB / 12066MiB |     80%      Default |
+  |                               |                      |                  N/A |
+  +-------------------------------+----------------------+----------------------+
+  |   4  TITAN V             Off  | 00000000:85:00.0 Off |                  N/A |
+  | 39%   58C    P2    67W / 250W |   4957MiB / 12066MiB |     89%      Default |
+  |                               |                      |                  N/A |
+  +-------------------------------+----------------------+----------------------+
+  |   5  TITAN V             Off  | 00000000:86:00.0 Off |                  N/A |
+  | 39%   57C    P2    89W / 250W |   4959MiB / 12066MiB |     87%      Default |
+  |                               |                      |                  N/A |
+  +-------------------------------+----------------------+----------------------+
+  |   6  TITAN V             Off  | 00000000:89:00.0 Off |                  N/A |
+  | 36%   54C    P2    79W / 250W |   4935MiB / 12066MiB |     90%      Default |
+  |                               |                      |                  N/A |
+  +-------------------------------+----------------------+----------------------+
+  |   7  TITAN V             Off  | 00000000:8A:00.0 Off |                  N/A |
+  | 28%   44C    P2    37W / 250W |    973MiB / 12066MiB |      9%      Default |
+  |                               |                      |                  N/A |
+  +-------------------------------+----------------------+----------------------+
+
+  +-----------------------------------------------------------------------------+
+  | Processes:                                                                  |
+  |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+  |        ID   ID                                                   Usage      |
+  |=============================================================================|
+  |    0   N/A  N/A     24374	 C   python3                          4621MiB |
+  |    1   N/A  N/A     24374	 C   python3                          4953MiB |
+  |    2   N/A  N/A     24374	 C   python3                          4953MiB |
+  |    3   N/A  N/A     24374	 C   python3                          4953MiB |
+  |    4   N/A  N/A     24374	 C   python3                          4953MiB |
+  |    5   N/A  N/A     24374	 C   python3                          4953MiB |
+  |    6   N/A  N/A     24374	 C   python3                          4929MiB |
+  |    7   N/A  N/A     24374	 C   python3                           969MiB |
+  +-----------------------------------------------------------------------------+
+  ```
